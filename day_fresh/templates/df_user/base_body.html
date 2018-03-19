@@ -1,0 +1,13 @@
+{% extends 'df_user/base_foot.html' %}
+
+{% block body %}
+	{% include 'df_user/base_header.html'%}
+
+	<div class="main_con clearfix">
+		{% include 'df_user/base_menu.html' %}
+        {% block right %}{% endblock %}
+
+	</div>
+
+{% endblock %}
+
