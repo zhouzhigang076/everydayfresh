@@ -1,0 +1,124 @@
+{% extends 'df_goods/base.html' %}
+{% block body %}
+
+	{% include 'df_goods/deba_menu.html' %}
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#">新鲜水果</a>
+		<span>></span>
+		<a href="#">商品详情</a>
+	</div>
+
+	<div class="goods_detail_con clearfix">
+		<div class="goods_detail_pic fl"><img src="/static/{{gpic}}"></div>
+
+		<div class="goods_detail_list fr">
+			<h3>{{gtitle}}</h3>
+			<p>{{gjangjie}}</p>
+			<div class="prize_bar">
+				<span class="show_pirze">¥<em id="detail_price" value="{{gprice}}">{{gprice}}</em></span>
+				<span class="show_unit">单  位：500g</span>
+			</div>
+			<div class="goods_num clearfix">
+				<div class="num_name fl">数 量：</div>
+				<div class="num_add fl">
+					<input type="text" class="num_show fl" id="num_show" value="1">
+					<a href="javascript:;" class="add fr" id="add">+</a>
+					<a href="javascript:;" class="minus fr">-</a>	
+				</div> 
+			</div>
+			<div class="total">总价：<em id="goods_count">{{gprice}}</em><em>元</em></div>
+			<div class="operate_btn">
+				<a href="javascript:;" class="buy_btn">立即购买</a>
+				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>				
+			</div>
+		</div>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods001.jpg"></a>
+						<h4><a href="#">进口柠檬</a></h4>
+						<div class="prize">￥3.90</div>
+					</li>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods002.jpg"></a>
+						<h4><a href="#">玫瑰香葡萄</a></h4>
+						<div class="prize">￥16.80</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<ul class="detail_tab clearfix">
+				<li class="active">商品介绍</li>
+				<li>评论</li>
+			</ul>
+
+			<div class="tab_content">
+				<dl>
+					<dt>商品详情：</dt>
+					<dd>{{gcontent}}</dd>
+				</dl>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="add_jump"></div>
+
+	<!--<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>-->
+	<script type="text/javascript">
+		var $add = $('.add');
+		var $minu = $('.minus');
+		var $add_x = $('#add_cart').offset().top;
+		var $add_y = $('#add_cart').offset().left;
+
+		var $to_x = $('#show_count').offset().top;
+		var $to_y = $('#show_count').offset().left;
+		var oldValue = parseInt($('#num_show').val());//取出现在的值，并使用parseInt转为int类型
+		var price_val = parseFloat($('#detail_price').attr('value'));
+		$($add).click(function () {
+
+			oldValue ++;
+			$(this).val(oldValue);
+			$('.num_show').attr({'value':oldValue});
+			$('#goods_count').html(price_val*oldValue);//向指定元素添加内容
+//			alert(price_val*oldValue)
+        });
+		$($minu).click(function () {
+			if(oldValue <= 1){
+			    oldValue = 1;
+			}
+			oldValue --;//自动减一
+			$(this).val(oldValue);//将减一之后的值赋值给原控件
+			$('.num_show').attr({'value':oldValue});//修改元素属性的值
+			$('#goods_count').html(price_val*oldValue);
+//			alert(price_val*oldValue)
+
+        });
+
+
+		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'});
+		$('#add_cart').click(function(){
+			$(".add_jump").stop().animate({
+				'left': $to_y+7,
+				'top': $to_x+7},
+				"fast", function() {
+					$(".add_jump").fadeOut('fast',function(){
+						$('#show_count').html(2);
+					});
+
+			});
+		})
+	</script>
+	
+{% endblock %}

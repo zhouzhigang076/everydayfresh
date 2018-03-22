@@ -1,3 +1,4 @@
+# coding:utf-8
 """
 Django settings for day_fresh project.
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'df_user',
+    'df_goods',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS={
-    os.path.join(BASE_DIR,'static'),
-}
+STATICFILES_DIRS=(
+os.path.join(BASE_DIR,'static'),
+)
+
+
+# 开发阶段，设置图片路径
+MEDIA_ROOT=os.path.join(BASE_DIR,'static')
+# 以后服务器部署的时候千万要记得将MEDIA_ROOT的路径配置城这个
+# MEDIA_ROOT=/var/www/everydayfresh/static
