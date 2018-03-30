@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'df_user',
     'df_goods',
+    'df_cart',
+    'df_order',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +137,12 @@ os.path.join(BASE_DIR,'static'),
 MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 # 以后服务器部署的时候千万要记得将MEDIA_ROOT的路径配置城这个
 # MEDIA_ROOT=/var/www/everydayfresh/static
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+#自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

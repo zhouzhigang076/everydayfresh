@@ -32,7 +32,8 @@
 			<div class="total">总价：<em id="goods_count">{{gprice}}</em><em>元</em></div>
 			<div class="operate_btn">
 				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>				
+				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+				<!--href='javascript:;' 表示该请求是ajax请求，页面局部更新-->
 			</div>
 		</div>
 	</div>
@@ -79,6 +80,7 @@
 	<script type="text/javascript">
 		var $add = $('.add');
 		var $minu = $('.minus');
+		var $goods_num = $('#num_show')
 		var $add_x = $('#add_cart').offset().top;
 		var $add_y = $('#add_cart').offset().left;
 
@@ -86,6 +88,10 @@
 		var $to_y = $('#show_count').offset().left;
 		var oldValue = parseInt($('#num_show').val());//取出现在的值，并使用parseInt转为int类型
 		var price_val = parseFloat($('#detail_price').attr('value'));
+
+
+
+
 		$($add).click(function () {
 
 			oldValue ++;
@@ -105,20 +111,45 @@
 //			alert(price_val*oldValue)
 
         });
+		$($goods_num).blur(function () {
+			$(this).val(parseInt($('#num_show').val()));
+        });
 
+		var count = parseInt($('#num_show').val())
+		var url = '/cart/'+"{{goods_info.id}}"+"_"+count+"/";
 
 		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'});
 		$('#add_cart').click(function(){
+
+		    var myLogin= $('.my_login').text();
+		    if(myLogin == '登录'){
+//		        实现页面跳转
+		        window.location.href="/user/login/";
+			}
 			$(".add_jump").stop().animate({
 				'left': $to_y+7,
 				'top': $to_x+7},
 				"fast", function() {
 					$(".add_jump").fadeOut('fast',function(){
-						$('#show_count').html(2);
+//						$('#show_count').html(2);
+//						var url = '/cart/'+"{{goods_info.id}}"+"_"+count+"/";
+						$.get(url, function (data) {
+							$('#show_count').html(data.count);
+
+//							向标签内添加内容例如<p id='show_count'>content<p>
+
+
+        					});
 					});
 
 			});
-		})
+
+
+		});
+		$.get('/cart/goods_count/', function (data) {
+            $('#show_count').html(data.count);
+
+        });
 	</script>
 	
 {% endblock %}

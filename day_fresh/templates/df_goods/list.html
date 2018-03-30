@@ -39,12 +39,12 @@
 				{% for goods in goods_list %}
 				<li>
 					<a href="/goods/{{goods.id}}/"><img src="/static/{{goods.gpic}}"></a>
-
-					<h4><a href="">{{goods.gtitle}}</a></h4>
+					<h4><a href="#">{{goods.gtitle}}</a></h4>
 					<div class="operate">
 						<span class="prize">￥{{goods.gprice}}</span>
 						<span class="unit">{{goods.gprice}}/500g</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
+						<a href='javascript:;' class="add_goods" title="加入购物车" value="{{goods.id}}"></a>
+
 					</div>
 				</li>
 				{% endfor %}
@@ -62,6 +62,31 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		 var myLogin= $('.my_login').text();
+		$('.add_goods').each(function (index) {
+		    var goods_id = $(this).attr('value')
+			var url = '/cart/'+goods_id+"_1/";
+		    $(this).click(function () {
+				if (myLogin == '登录') {
+//		        实现页面跳转
+                window.location.href = "/user/login/";
+            }
+
+            $.get(url, function (data) {
+                $('#show_count').html(data.count);
+
+//					向标签内添加内容例如<p id='show_count'>content<p>
+            });
+            })
+
+        });
+		$.get('/cart/goods_count/', function (data) {
+            $('#show_count').html(data.count);
+
+        });
+
+	</script>
 
 	
 {% endblock %}
